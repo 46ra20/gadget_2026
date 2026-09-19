@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="বাংলাদেশ জাতীয় বেতন স্কেল ২০২৬ — বেতন নির্ধারণ, ইনক্রিমেন্ট, পেনশন ও ভাতাদি ক্যালকুলেটর (চাকরি (বেতন ও ভাতাদি) আদেশ, ২০২৬)" />
+<title>জাতীয় বেতন স্কেল ২০২৬ | Pay &amp; Pension Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================== THEME ============================== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#006a4e; --green-2:#00886a; --green-3:#00a37f;
+  --green-soft:#e7f4f0; --green-line:#bfe0d7;
+  --red:#f42a41; --red-soft:#fdecee;
+  --amber:#b7791f; --amber-soft:#fdf5e4; --amber-line:#f0dfb6;
+  --bg:#eef3f1; --card:#ffffff; --ink:#0f211b; --muted:#5b6f68;
+  --line:#dbe6e2; --line-2:#eef3f1;
+  --radius:16px; --radius-sm:10px;
+  --shadow:0 1px 2px rgba(15,33,27,.05), 0 10px 28px -14px rgba(15,33,27,.22);
+  --shadow-sm:0 1px 2px rgba(15,33,27,.05), 0 4px 12px -8px rgba(15,33,27,.18);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Noto Sans Bengali','Hind Siliguri',system-ui,-apple-system,'Segoe UI',sans-serif;
+  background:var(--bg); color:var(--ink); line-height:1.72;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  padding-bottom:60px;
+}
+.num{font-family:'Inter','Noto Sans Bengali',system-ui,sans-serif;font-variant-numeric:tabular-nums}
+
+/* ============================== HERO ============================== */
+.hero{
+  position:relative; overflow:hidden; color:#fff;
+  background:linear-gradient(135deg,#003d2c 0%,#006a4e 45%,#00886a 100%);
+  padding:30px 20px 92px;
+}
+.hero::before{
+  content:""; position:absolute; inset:0;
+  background:
+    radial-gradient(700px 320px at 88% -10%, rgba(255,255,255,.16), transparent 65%),
+    radial-gradient(520px 260px at 5% 110%, rgba(244,42,65,.22), transparent 62%);
+  pointer-events:none;
+}
+.hero-inner{position:relative;max-width:1180px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.emblem{
+  width:52px;height:52px;flex:0 0 52px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#fff 0 38%,#f6e7a8 39% 50%,#f42a41 51% 100%);
+  box-shadow:0 0 0 3px rgba(255,255,255,.28), 0 8px 20px -8px rgba(0,0,0,.5);
+  display:grid;place-items:center;font-size:22px;
+}
+.brand h1{font-size:clamp(20px,2.6vw,29px);font-weight:700;letter-spacing:-.2px;line-height:1.3}
+.brand .sub{font-size:13.5px;opacity:.86;font-weight:500}
+.sro-pill{
+  display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);
+  padding:7px 14px;border-radius:999px;font-size:12.5px;font-weight:500;
+  backdrop-filter:blur(6px);
+}
+.sro-pill .dot{width:7px;height:7px;border-radius:50%;background:#8ff0c8;box-shadow:0 0 8px #8ff0c8}
+.hero-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.hero-chip{
+  font-size:12px;padding:6px 12px;border-radius:8px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);
+}
+.hero-chip b{font-weight:600}
+
+/* ============================== LAYOUT ============================== */
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.sheet{margin-top:-70px;position:relative;z-index:2}
+
+/* ============================== TABS ============================== */
+.tabbar{
+  display:flex;gap:6px;padding:8px;background:var(--card);
+  border-radius:var(--radius);box-shadow:var(--shadow);
+  overflow-x:auto;scrollbar-width:none;
+}
+.tabbar::-webkit-scrollbar{display:none}
+.tab{
+  flex:1 0 auto;white-space:nowrap;border:0;cursor:pointer;
+  padding:11px 18px;border-radius:11px;background:transparent;color:var(--muted);
+  font-family:inherit;font-size:14.5px;font-weight:600;line-height:1.4;
+  transition:background .18s,color .18s,transform .12s;
+  display:flex;align-items:center;gap:8px;justify-content:center;
+}
+.tab:hover{background:var(--green-soft);color:var(--green)}
+.tab.active{background:var(--green);color:#fff;box-shadow:0 6px 16px -8px rgba(0,106,78,.9)}
+.tab .ico{font-size:16px}
+
+/* ============================== PANELS ============================== */
+.panel{display:none;animation:fade .28s ease both}
+.panel.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.grid{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;margin-top:18px}
+@media(min-width:900px){
+  .grid.cols{grid-template-columns:minmax(0,420px) minmax(0,1fr)}
+}
+
+.card{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);box-shadow:var(--shadow-sm);
+  padding:22px;
+}
+.card.tight{padding:18px}
+.card-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:18px}
+.card-head .bar{width:4px;align-self:stretch;border-radius:4px;background:var(--green);flex:0 0 4px}
+.card-head h2{font-size:17.5px;font-weight:700;line-height:1.45}
+.card-head p{font-size:12.8px;color:var(--muted);font-weight:500;line-height:1.5}
+.card-head .bar.red{background:var(--red)}
+.card-head .bar.amber{background:var(--amber)}
+
+/* ============================== FORM ============================== */
+.field{margin-bottom:16px}
+.field:last-child{margin-bottom:0}
+label.lbl{display:block;font-size:13.5px;font-weight:600;margin-bottom:7px;color:#22392f}
+label.lbl .hint{font-weight:400;color:var(--muted);font-size:12px}
+select,input[type=number],input[type=text]{
+  width:100%;padding:11px 13px;border:1.5px solid var(--line);
+  border-radius:var(--radius-sm);background:#fbfdfc;color:var(--ink);
+  font-family:inherit;font-size:15px;font-weight:600;line-height:1.5;
+  transition:border-color .16s,box-shadow .16s,background .16s;
+  appearance:none;
+}
+select{background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235b6f68' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;background-size:17px;padding-right:38px}
+select:focus,input:focus{outline:none;border-color:var(--green-2);background:#fff;box-shadow:0 0 0 4px rgba(0,136,106,.13)}
+.help{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.6}
+.err{font-size:12.5px;color:var(--red);margin-top:6px;font-weight:600;display:none}
+.err.show{display:block}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:12px 22px;border-radius:var(--radius-sm);border:0;cursor:pointer;
+  font-family:inherit;font-size:15px;font-weight:700;line-height:1.4;
+  transition:transform .12s,box-shadow .16s,background .16s;
+}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--green);color:#fff;box-shadow:0 8px 18px -10px rgba(0,106,78,.95)}
+.btn-primary:hover{background:var(--green-2)}
+.btn-ghost{background:var(--green-soft);color:var(--green);border:1.5px solid var(--green-line)}
+.btn-ghost:hover{background:#dbeee8}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+
+/* ============================== RESULT ============================== */
+.big-result{
+  border-radius:var(--radius);padding:22px;color:#fff;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#00543e,#00795a 60%,#00a37f);
+  box-shadow:0 14px 32px -18px rgba(0,106,78,.95);
+}
+.big-result::after{
+  content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.16),transparent 68%);
+}
+.big-result .k{font-size:12.5px;opacity:.85;font-weight:500;letter-spacing:.2px}
+.big-result .v{font-size:clamp(28px,4.6vw,42px);font-weight:700;line-height:1.2;letter-spacing:-.5px}
+.big-result .v small{font-size:16px;font-weight:600;opacity:.85;margin-right:6px}
+.br-split{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.22)}
+.br-split .k{font-size:12px}
+.br-split .n{font-size:20px;font-weight:700}
+
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:16px}
+.stat{
+  background:#fbfdfc;border:1px solid var(--line);border-radius:var(--radius-sm);
+  padding:13px 15px;
+}
+.stat .k{font-size:12px;color:var(--muted);font-weight:600;line-height:1.5}
+.stat .v{font-size:19px;font-weight:700;line-height:1.4}
+.stat.green{background:var(--green-soft);border-color:var(--green-line)}
+.stat.green .v{color:var(--green)}
+.stat.red{background:var(--red-soft);border-color:#f7cdd3}
+.stat.red .v{color:#c11d31}
+.stat.amber{background:var(--amber-soft);border-color:var(--amber-line)}
+.stat.amber .v{color:var(--amber)}
+
+/* ============================== STEPS ============================== */
+.steps{margin-top:18px;border-left:2px dashed var(--green-line);padding-left:18px;display:grid;gap:14px}
+.step{position:relative}
+.step::before{
+  content:"";position:absolute;left:-25px;top:7px;width:12px;height:12px;border-radius:50%;
+  background:#fff;border:2.5px solid var(--green-2);
+}
+.step .t{font-size:13px;color:var(--muted);font-weight:600}
+.step .d{font-size:15px;font-weight:600;line-height:1.6}
+.step .d code{
+  font-family:'Inter',monospace;background:var(--green-soft);color:#00543e;
+  padding:2px 7px;border-radius:6px;font-size:13.5px;font-weight:600;
+}
+
+/* ============================== TABLES ============================== */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius-sm);background:#fff;margin-top:14px}
+table{width:100%;border-collapse:collapse;font-size:13.8px;min-width:520px}
+thead th{
+  background:var(--green-soft);color:#004a37;font-weight:700;font-size:12.8px;
+  text-align:left;padding:11px 14px;border-bottom:1.5px solid var(--green-line);
+  position:sticky;top:0;white-space:nowrap;letter-spacing:.1px;
+}
+tbody td{padding:11px 14px;border-bottom:1px solid var(--line-2);vertical-align:top;line-height:1.6}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:#fafcfb}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;font-family:'Inter','Noto Sans Bengali',sans-serif}
+.grade-badge{
+  display:inline-grid;place-items:center;min-width:30px;height:30px;padding:0 8px;
+  border-radius:9px;background:var(--green);color:#fff;font-weight:700;font-size:13px;
+}
+.grade-badge.hi{background:#0b4f6c}
+.grade-badge.lo{background:#2f6b4f}
+.scale-text{font-family:'Inter','Noto Sans Bengali',monospace;font-size:12.7px;line-height:1.75;letter-spacing:-.1px;word-break:break-word}
+.scale-text.old{color:#7a8b84}
+.scale-text.new{color:#004a37;font-weight:600}
+.pill{
+  display:inline-block;padding:2.5px 9px;border-radius:999px;font-size:11px;font-weight:700;
+  line-height:1.6;white-space:nowrap;
+}
+.pill.ok{background:var(--green-soft);color:var(--green);border:1px solid var(--green-line)}
+.pill.warn{background:var(--amber-soft);color:var(--amber);border:1px solid var(--amber-line)}
+.pill.info{background:#e8f1fb;color:#1d5a8f;border:1px solid #c9ddf3}
+
+/* ============================== NOTICE ============================== */
+.notice{
+  display:flex;gap:12px;padding:14px 16px;border-radius:var(--radius-sm);
+  font-size:13.2px;line-height:1.7;margin-top:16px;
+}
+.notice .ic{flex:0 0 20px;font-size:16px;line-height:1.6}
+.notice.warn{background:var(--amber-soft);border:1px solid var(--amber-line);color:#7a5310}
+.notice.info{background:#eaf3fb;border:1px solid #cfe2f5;color:#1a4b78}
+.notice.ok{background:var(--green-soft);border:1px solid var(--green-line);color:#0b4a38}
+.notice b{font-weight:700}
+
+/* ============================== MISC ============================== */
+.digit-toggle{
+  display:inline-flex;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);
+  border-radius:999px;padding:3px;gap:2px;
+}
+.digit-toggle button{
+  border:0;background:transparent;color:rgba(255,255,255,.75);cursor:pointer;
+  font-family:inherit;font-size:12px;font-weight:700;padding:5px 13px;border-radius:999px;
+  transition:background .16s,color .16s;
+}
+.digit-toggle button.on{background:#fff;color:var(--green)}
+.subhead{
+  font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;
+  color:var(--muted);margin:26px 0 10px;
+}
+footer{
+  max-width:1180px;margin:44px auto 0;padding:22px 20px 0;
+  border-top:1px solid var(--line);font-size:12.4px;color:var(--muted);line-height:1.85;
+}
+footer b{color:#22392f}
+.hidden{display:none !important}
+@media(max-width:520px){
+  .card{padding:17px}
+  .big-result{padding:18px}
+  .br-split{grid-template-columns:1fr}
+}
+@media print{
+  .tabbar,.btn,.digit-toggle{display:none!important}
+  .panel{display:block!important}
+  body{background:#fff}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================== HERO ============================== -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="brand">
+      <div class="emblem">🇧🇩</div>
+      <div>
+        <h1>জাতীয় বেতন স্কেল ২০২৬</h1>
+        <div class="sub">National Pay Scale 2026 &nbsp;·&nbsp; বেতন নির্ধারণ, ইনক্রিমেন্ট, পেনশন ও ভাতাদি ক্যালকুলেটর</div>
+      </div>
+    </div>
+
+    <div class="sro-pill">
+      <span class="dot"></span>
+      এস.আর.ও. নং ৩৪৭-আইন/২০২৬ &nbsp;·&nbsp; চাকরি (বেতন ও ভাতাদি) আদেশ, ২০২৬
+    </div>
+
+    <div class="hero-meta">
+      <span class="hero-chip">কার্যকর: <b>১ জুলাই ২০২৬</b></span>
+      <span class="hero-chip">প্রজ্ঞাপন: <b>১৭ সেপ্টেম্বর ২০২৬</b></span>
+      <span class="hero-chip">গ্রেড: <b>১ – ২০</b></span>
+      <span class="hero-chip" style="margin-left:auto">
+        <span class="digit-toggle" role="group" aria-label="সংখ্যা প্রদর্শন">
+          <button type="button" id="digEn" class="on">123</button>
+          <button type="button" id="digBn">১২৩</button>
+        </span>
+      </span>
+    </div>
+  </div>
+</header>
+
+<!-- ============================== TABS ============================== -->
+<div class="wrap sheet">
+  <nav class="tabbar" id="tabbar">
+    <button class="tab active" data-tab="fixation"><span class="ico">🧮</span> বেতন নির্ধারণ</button>
+    <button class="tab" data-tab="scale"><span class="ico">📋</span> বেতন স্কেল</button>
+    <button class="tab" data-tab="increment"><span class="ico">📈</span> ইনক্রিমেন্ট</button>
+    <button class="tab" data-tab="pension"><span class="ico">👴</span> পেনশন</button>
+    <button class="tab" data-tab="allowance"><span class="ico">💰</span> ভাতাদি</button>
+  </nav>
+</div>
+
+<main class="wrap">
+
+  <!-- ============================================================= -->
+  <!-- 1. PAY FIXATION                                                -->
+  <!-- ============================================================= -->
+  <section class="panel active" id="panel-fixation">
+    <div class="grid cols">
+
+      <!-- ---- INPUT ---- -->
+      <div class="card">
+        <div class="card-head">
+          <div class="bar"></div>
+          <div>
+            <h2>বেতন নির্ধারণ (Pay Fixation)</h2>
+            <p>অনুচ্ছেদ ৪ ও ৫ — জাতীয় বেতন স্কেল, ২০২৬-এ বেতন নির্ধারণ</p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="lbl" for="fxGrade">গ্রেড <span class="hint">(জাতীয় বেতন স্কেল, ২০১৫ অনুযায়ী)</span></label>
+          <select id="fxGrade"></select>
+          <div class="help" id="fxGradeHint"></div>
+        </div>
+
+        <div class="field">
+          <label class="lbl" for="fxBasic">
+            ৩০ জুন ২০২৬ তারিখে প্রাপ্ত মূল বেতন <span class="hint">(টাকা)</span>
+          </label>
+          <input type="number" id="fxBasic" inputmode="numeric" placeholder="যেমন: ১৩৭৯০" min="0" step="1" />
+          <div class="help" id="fxBasicHint">বর্তমান স্কেলের প্রারম্ভিক ধাপ বা তদূর্ধ্ব যেকোনো ধাপ লিখুন।</div>
+          <div class="err" id="fxErr"></div>
+        </div>
+
+        <div class="field">
+          <label class="lbl">১ জুলাই ২০২৬ তারিখে অবস্থা</label>
+          <select id="fxStatus">
+            <option value="duty">কর্মরত (নিয়মিত)</option>
+            <option value="leave">ছুটিতে (নিয়মিত ছুটি)</option>
+            <option value="prl">অবসর-উত্তর ছুটিতে (PRL)</option>
+            <option value="suspend">সাময়িকভাবে বরখাস্ত</option>
+          </select>
+          <div class="help" id="fxStatusHint"></div>
+        </div>
+
+        <div class="field">
+          <label class="lbl" style="display:flex;align-items:center;gap:9px;cursor:pointer">
+            <input type="checkbox" id="fxIncrement" checked style="width:auto;accent-color:#006a4e;width:17px;height:17px" />
+            <span>১ জুলাই ২০২৬ তারিখে ১টি বার্ষিক ইনক্রিমেন্ট যোগ করুন <span class="hint">(অনুচ্ছেদ ৯(২))</span></span>
+          </label>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" id="fxCalc">বেতন নির্ধারণ করুন</button>
+          <button class="btn btn-ghost" id="fxReset">রিসেট</button>
+        </div>
+      </div>
+
+      <!-- ---- OUTPUT ---- -->
+      <div>
+        <div id="fxOut" class="hidden"></div>
+        <div id="fxPlaceholder" class="card" style="text-align:center;color:var(--muted)">
+          <div style="font-size:40px;line-height:1.2;margin-bottom:8px">🧮</div>
+          <div style="font-weight:700;color:var(--ink);font-size:16px">বাম দিকের তথ্য পূরণ করুন</div>
+          <div style="font-size:13.5px;margin-top:6px">গ্রেড ও ৩০ জুন ২০২৬ তারিখের মূল বেতন দিলে নতুন স্কেলের বেতন, ইনক্রিমেন্ট ও ধাপভিত্তিক পরিশোধের হিসাব দেখানো হবে।</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- 2. SCALE TABLE                                                 -->
+  <!-- ============================================================= -->
+  <section class="panel" id="panel-scale">
+    <div class="card">
+      <div class="card-head">
+        <div class="bar"></div>
+        <div>
+          <h2>জাতীয় বেতন স্কেল, ২০২৬ — সম্পূর্ণ গ্রেড তালিকা</h2>
+          <p>অনুচ্ছেদ ৩ — বর্তমান (২০১৫) ও নতুন (২০২৬) স্কেলের তুলনা</p>
+        </div>
+      </div>
+
+      <div class="notice warn">
+        <span class="ic">⚠️</span>
+        <div>
+          <b>উৎস নোট:</b> এই ক্যালকুলেটরটির ভিত্তি হলো সংযুক্ত গেজেট পিডিএফ। পিডিএফের <b>পৃষ্ঠা ৫ সম্পূর্ণভাবে অবোধ্য</b> (OCR ত্রুটি) ছিল,
+          তাই <b>গ্রেড ৫, ৬, ৭, ৮, ৯, ১০ ও ১২</b>-এর ধাপগুলো <b>আনুমানিক</b> (২০১৫ স্কেলের দ্বিগুণ নীতির ভিত্তিতে) দেওয়া হয়েছে এবং
+          কমলা রঙে চিহ্নিত। অফিসিয়াল গেজেট হাতে থাকলে <code>SCALE_2026</code> অবজেক্টে মানগুলো সহজেই সংশোধন করা যাবে।
+          গ্রেড ১–৪ ও ১১, ১৩–২০-এর মান পিডিএফ থেকে সরাসরি নেওয়া।
+        </div>
+      </div>
+
+      <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <input type="text" id="scaleSearch" placeholder="🔎 গ্রেড খুঁজুন (যেমন: ৯ বা 13)" style="max-width:280px" />
+        <span class="pill ok">✔ যাচাইকৃত</span>
+        <span class="pill warn">≈ আনুমানিক</span>
+      </div>
+
+      <div class="tbl-wrap">
+        <table id="scaleTable">
+          <thead>
+            <tr>
+              <th style="width:70px">গ্রেড</th>
+              <th>জাতীয় বেতন স্কেল, ২০১৫ <span style="font-weight:500;opacity:.75">(বর্তমান)</span></th>
+              <th>জাতীয় বেতন স্কেল, ২০২৬ <span style="font-weight:500;opacity:.75">(১ জুলাই ২০২৬)</span></th>
+            </tr>
+          </thead>
+          <tbody id="scaleBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- 3. INCREMENT                                                   -->
+  <!-- ============================================================= -->
+  <section class="panel" id="panel-increment">
+    <div class="grid cols">
+      <div class="card">
+        <div class="card-head">
+          <div class="bar"></div>
+          <div>
+            <h2>বার্ষিক বেতনবৃদ্ধি (Increment)</h2>
+            <p>অনুচ্ছেদ ৯ — প্রতি অর্থবৎসরের প্রথম দিবসে (১ জুলাই) ইনক্রিমেন্ট</p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="lbl" for="incGrade">গ্রেড</label>
+          <select id="incGrade"></select>
+        </div>
+        <div class="field">
+          <label class="lbl" for="incBasic">১ জুলাই ২০২৬-এ নির্ধারিত মূল বেতন <span class="hint">(টাকা)</span></label>
+          <input type="number" id="incBasic" inputmode="numeric" placeholder="যেমন: ২৬৩০০" min="0" />
+          <div class="help" id="incHint"></div>
+        </div>
+        <div class="field">
+          <label class="lbl" for="incYears">কত বছর পর্যন্ত প্রক্ষেপণ দেখবেন?</label>
+          <select id="incYears">
+            <option value="10">১০ বছর</option>
+            <option value="15" selected>১৫ বছর</option>
+            <option value="20">২০ বছর</option>
+          </select>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="incCalc">হিসাব করুন</button>
+        </div>
+      </div>
+
+      <div>
+        <div id="incOut" class="hidden"></div>
+        <div id="incPlaceholder" class="card" style="text-align:center;color:var(--muted)">
+          <div style="font-size:40px;line-height:1.2;margin-bottom:8px">📈</div>
+          <div style="font-weight:700;color:var(--ink);font-size:16px">ইনক্রিমেন্ট প্রক্ষেপণ</div>
+          <div style="font-size:13.5px;margin-top:6px">গ্রেড ও মূল বেতন দিলে প্রতি ১ জুলাই-এর ইনক্রিমেন্টসহ ভবিষ্যৎ বেতন তালিকা দেখানো হবে।</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- 4. PENSION                                                     -->
+  <!-- ============================================================= -->
+  <section class="panel" id="panel-pension">
+    <div class="grid cols">
+      <div class="card">
+        <div class="card-head">
+          <div class="bar red"></div>
+          <div>
+            <h2>পেনশন পুনর্নির্ধারণ</h2>
+            <p>অনুচ্ছেদ ৮ — নিট পেনশন বৃদ্ধির সারণি ও ধাপভিত্তিক পরিশোধ</p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="lbl" for="penBasic">৩০ জুন ২০২৬ তারিখে প্রাপ্ত মাসিক নিট পেনশন <span class="hint">(টাকা)</span></label>
+          <input type="number" id="penBasic" inputmode="numeric" placeholder="যেমন: ২৫০০০" min="0" />
+          <div class="help">অবসরভোগী / আজীবন পারিবারিক পেনশনভোগীর ক্ষেত্রে মূল পেনশনভোগীর প্রাপ্ত নিট পেনশনের ভিত্তিতে।</div>
+        </div>
+
+        <div class="field">
+          <label class="lbl">প্রকার</label>
+          <select id="penType">
+            <option value="main">মূল পেনশনভোগী (অবসরভোগী)</option>
+            <option value="family">আজীবন পারিবারিক পেনশনভোগী</option>
+          </select>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" id="penCalc">পেনশন হিসাব করুন</button>
+        </div>
+
+        <div class="subhead">নিট পেনশন বৃদ্ধির সারণি</div>
+        <div class="tbl-wrap">
+          <table style="min-width:420px">
+            <thead>
+              <tr>
+                <th>৩০ জুন ২০২৬-এর নিট পেনশন</th>
+                <th class="n">বৃদ্ধির হার</th>
+                <th class="n">ন্যূনতম</th>
+                <th class="n">সর্বোচ্চ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>সর্বনিম্ন – ১০,০০০</td><td class="n">১০০%</td><td class="n">১০,০০০</td><td class="n">১৮,০০০</td></tr>
+              <tr><td>১০,০০১ – ২০,০০০</td><td class="n">৭৫%</td><td class="n">১৮,০০১</td><td class="n">৩৫,০০০</td></tr>
+              <tr><td>২০,০০১ – ৩০,০০০</td><td class="n">৬৫%</td><td class="n">৩৫,০০১</td><td class="n">৪৯,০০০</td></tr>
+              <tr><td>৩০,০০১ – ৪০,০০০</td><td class="n">৬০%</td><td class="n">৪৯,০০১</td><td class="n">৬২,০০০</td></tr>
+              <tr><td>৪০,০০১ ও তদূর্ধ্ব</td><td class="n">৫৫%</td><td class="n">৬২,০০১</td><td class="n">৭০,২০০</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div>
+        <div id="penOut" class="hidden"></div>
+        <div id="penPlaceholder" class="card" style="text-align:center;color:var(--muted)">
+          <div style="font-size:40px;line-height:1.2;margin-bottom:8px">👴</div>
+          <div style="font-weight:700;color:var(--ink);font-size:16px">পেনশন হিসাব</div>
+          <div style="font-size:13.5px;margin-top:6px">৩০ জুন ২০২৬-এর নিট পেনশন লিখুন — নতুন নিট পেনশন এবং ধাপে ধাপে বৃদ্ধির হিসাব দেখানো হবে।</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- 5. ALLOWANCES                                                  -->
+  <!-- ============================================================= -->
+  <section class="panel" id="panel-allowance">
+    <div class="grid cols">
+      <div class="card">
+        <div class="card-head">
+          <div class="bar amber"></div>
+          <div>
+            <h2>ভাতাদি হিসাব</h2>
+            <p>অনুচ্ছেদ ১২–৩০ — বাড়ি ভাড়া, চিকিৎসা, যাতায়াত, টিফিন, মোবাইল ইত্যাদি</p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="lbl" for="alGrade">গ্রেড</label>
+          <select id="alGrade"></select>
+        </div>
+
+        <div class="field">
+          <label class="lbl" for="alBasic">মূল বেতন <span class="hint">(টাকা)</span></label>
+          <input type="number" id="alBasic" inputmode="numeric" placeholder="যেমন: ২৬৩০০" min="0" />
+          <div class="help">৩০ জুন ২০২৬-এর বেতন (৩১ ডিসেম্বর ২০২৭ পর্যন্ত ভাতাদি সেই ভিত্তিতে) অথবা ১ জানুয়ারি ২০২৮-পরবর্তী নতুন মূল বেতন।</div>
+        </div>
+
+        <div class="field">
+          <label class="lbl" for="alArea">কর্মস্থল / বাসস্থানের এলাকা <span class="hint">(বাড়ি ভাড়ার জন্য)</span></label>
+          <select id="alArea">
+            <option value="dhaka">ঢাকা ও বিভাগীয় সদর — ৬০/৫০/৪৫/৪০%</option>
+            <option value="metro">খুলনা, রাজশাহী, চট্টগ্রাম, সিলেট, বরিশাল, রংপুর, ময়মনসিংহ, কুমিল্লা, গাজীপুর, নারায়ণগঞ্জ ও অন্যান্য পৌরসভা — ৫০/৪০/৩৫/৩০%</option>
+            <option value="other">অন্যান্য এলাকা — ৪৫/৩৫/৩০/২৫%</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="lbl" for="alAge">বয়স <span class="hint">(বছর)</span></label>
+          <input type="number" id="alAge" inputmode="numeric" value="35" min="18" max="80" />
+          <div class="help">চিকিৎসা ভাতা: ৫০ বছর পর্যন্ত ৩,০০০ টাকা; ৫০ বছর ১ দিন থেকে PRL পর্যন্ত ৪,০০০ টাকা।</div>
+        </div>
+
+        <div class="field">
+          <label class="lbl" for="alChildren">সন্তান সংখ্যা <span class="hint">(শিক্ষা সহায়ক ভাতার জন্য)</span></label>
+          <input type="number" id="alChildren" inputmode="numeric" value="0" min="0" max="10" />
+        </div>
+
+        <div class="field">
+          <label class="lbl" for="alSpecial">বিশেষ চাহিদাসম্পন্ন সন্তান সংখ্যা</label>
+          <input type="number" id="alSpecial" inputmode="numeric" value="0" min="0" max="10" />
+        </div>
+
+        <div class="field">
+          <label class="lbl" for="alHousing">সরকারি আবাসন সুবিধা</label>
+          <select id="alHousing">
+            <option value="no">পাই না — বাড়ি ভাড়া ভাতা প্রাপ্য</option>
+            <option value="yes">পাই — বাড়ি ভাড়া ভাতা প্রাপ্য নয়</option>
+          </select>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" id="alCalc">ভাতাদি হিসাব করুন</button>
+        </div>
+      </div>
+
+      <div>
+        <div id="alOut" class="hidden"></div>
+        <div id="alPlaceholder" class="card" style="text-align:center;color:var(--muted)">
+          <div style="font-size:40px;line-height:1.2;margin-bottom:8px">💰</div>
+          <div style="font-weight:700;color:var(--ink);font-size:16px">ভাতাদি হিসাব</div>
+          <div style="font-size:13.5px;margin-top:6px">গ্রেড, বেতন ও এলাকা নির্বাচন করে ভাতাদির তালিকা ও মোট মাসিক আয় দেখুন।</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>
+    <b>সূত্র:</b> বাংলাদেশ গেজেট, অতিরিক্ত সংখ্যা, ১৭ সেপ্টেম্বর ২০২৬ — অর্জন মন্ত্রণালয়, অর্থ বিভাগ (বাস্তবায়ন-১ অনুবিভাগ) কর্তৃক প্রকাশিত
+    <b>এস.আর.ও. নং ৩৪৭-আইন/২০২৬</b> (চাকরি (বেতন ও ভাতাদি) আদেশ, ২০২৬), যা ১ জুলাই ২০২৬ তারিখ থেকে কার্যকর।
+  </p>
+  <p style="margin-top:10px">
+    <b>দাবিত্যাগ:</b> এটি একটি অনানুষ্ঠানিক (unofficial) সহায়ক টুল — সরকারি নথি নয়। সংযুক্ত পিডিএফের পৃষ্ঠা ৫ সম্পূর্ণ অবোধ্য ছিল,
+    ফলে গ্রেড ৫, ৬, ৭, ৮, ৯, ১০ ও ১২-এর ধাপ “আনুমানিক” হিসেবে চিহ্নিত। চূড়ান্ত বেতন নির্ধারণের জন্য অবশ্যই অফিসিয়াল গেজেট,
+    নিজ দপ্তরের হিসাব শাখা এবং iBAS++ সিস্টেমের নির্দেশিকা অনুসরণ করুন।
+  </p>
+  <p style="margin-top:10px">
+    ধাপভিত্তিক পরিশোধের হারের ক্ষেত্রে গেজেটের OCR কিছুটা অস্পষ্ট — ক্যালকুলেটরে ডিফল্ট হিসেবে ৪০/৫০ → ৭০/৭৫ → ১০০% ধরা হয়েছে।
+  </p>
+</footer>
+
+<script>
+/* ==================================================================
+   1.  DATA
+   ================================================================== */
+
+/**
+ * জাতীয় বেতন স্কেল, ২০১৫ (বর্তমান বেতন স্কেল)
+ * উৎস: চাকরি (বেতন ও ভাতাদি) আদেশ, ২০১৫
+ */
+const SCALE_2015 = {
+  1:  [78000],
+  2:  [66000,68480,71050,73720,76490],
+  3:  [56500,58760,61120,63570,66120,68770,71530,74400],
+  4:  [50000,52000,54080,56250,58500,60840,63280,65820,68460,71200],
+  5:  [43000,44720,46510,48370,50310,52320,54410,56590,58850,61200,63650,66190,68840,71590,74450],
+  6:  [35800,37230,38720,40270,41880,43560,45300,47110,48990,50950,52990,55110,57310,59600,61990,64470,67050],
+  7:  [29000,30160,31370,32620,33930,35290,36700,38170,39700,41290,42940,44660,46450,48310,50240,52250,54340,56520,58780],
+  8:  [23000,23920,24880,25880,26920,28000,29120,30290,31500,32760,34070,35440,36860,38340,39880,41480,43140,44870,46670],
+  9:  [22000,22880,23800,24750,25740,26770,27840,28960,30120,31330,32580,33880,35240,36650,38120,39650,41240,42890,44610,46400,48270,50210,52220],
+  10: [16000,16640,17310,18000,18720,19470,20250,21060,21900,22780,23690,24640,25630,26660,27730,28840,29990,31190,32440,33740,35090,36500,37960,39480,41060],
+  11: [12500,13130,13790,14480,15210,15980,16780,17620,18510,19440,20420,21450,22530,23660,24850,26100,27410,28790,30230],
+  12: [11300,11860,12450,13070,13720,14400,15120,15870,16660,17490,18360,19280,20240,21250,22310,23430,24590,25820,27110,28460],
+  13: [11000,11550,12130,12740,13380,14050,14760,15500,16280,17100,17960,18860,19810,20810,21860,22960,24110,25320,26590],
+  14: [10200,10710,11250,11820,12420,13050,13710,14400,15120,15880,16680,17520,18400,19320,20290,21310,22380,23500,24680],
+  15: [9700,10190,10700,11240,11810,12410,13040,13700,14390,15110,15870,16670,17510,18390,19310,20280,21300,22370,23490],
+  16: [9300,9770,10260,10780,11320,11890,12490,13120,13780,14470,15200,15960,16760,17600,18480,19410,20390,21410,22490],
+  17: [9000,9450,9930,10430,10960,11510,12090,12700,13340,14010,14720,15460,16240,17060,17920,18820,19770,20760,21800],
+  18: [8800,9240,9710,10200,10710,11250,11820,12420,13020,13710,14400,15120,15880,16680,17520,18400,19320,20290,21310],
+  19: [8500,8930,9380,9850,10350,10870,11420,12000,12600,13230,13900,14600,15330,16100,16910,17760,18650,19590,20570],
+  20: [8250,8670,9110,9570,10050,10560,11090,11650,12240,12860,13510,14190,14900,15650,16440,17270,18140,19050,20010]
+};
+
+/**
+ * জাতীয় বেতন স্কেল, ২০২৬
+ * est:true  → পিডিএফের পৃষ্ঠা ৫ অবোধ্য ছিল, তাই ২০১৫ স্কেলের ২× নীতিতে আনুমানিক
+ * est:false → গেজেট পিডিএফ থেকে সরাসরি যাচাইকৃত
+ */
+const SCALE_2026 = {
+  1:  { steps:[156000], est:false },
+  2:  { steps:[132000,135700,139400,143200,147200,151200,153000], est:false },
+  3:  { steps:[113000,117000,121100,125300,129700,134300,139000,143800,148800], est:false },
+  4:  { steps:[100000,103500,107200,110900,114800,118800,123000,127300,131700,136300,142400], est:false },
+  5:  { steps:[86000,89440,93020,96740,100620,104640,108820,113180,117700,122400,127300,132380,137680,143180,148900], est:true },
+  6:  { steps:[71600,74460,77440,80540,83760,87120,90600,94220,97980,101900,105980,110220,114620,119200,123980,128940,134100], est:true },
+  7:  { steps:[58000,60320,62740,65240,67860,70580,73400,76340,79400,82580,85880,89320,92900,96620,100480,104500,108680,113040,117560], est:true },
+  8:  { steps:[46000,47840,49760,51760,53840,56000,58240,60580,63000,65520,68140,70880,73720,76680,79760,82960,86280,89740,93340], est:true },
+  9:  { steps:[44000,45760,47600,49500,51480,53540,55680,57920,60240,62660,65160,67760,70480,73300,76240,79300,82480,85780,89220,92800,96540,100420,104440], est:true },
+  10: { steps:[32000,33280,34620,36000,37440,38940,40500,42120,43800,45560,47380,49280,51260,53320,55460,57680,59980,62380,64880,67480,70180,73000,75920,78960,82120], est:true },
+  11: { steps:[25000,26300,27600,29000,30400,32000,33600,35200,37000,38800,40800,42800,44900,47200,49500,52000,54600,57300,60500], est:false },
+  12: { steps:[22600,23720,24900,26140,27440,28800,30240,31740,33320,34980,36720,38560,40480,42500,44620,46860,49180,51640,54220,56920], est:true },
+  13: { steps:[24000,25200,26500,27800,29200,30700,32200,33800,35500,37300,39100,41100,43200,45300,47600,49900,52400,55100,58000], est:false },
+  14: { steps:[23500,24700,26000,27300,28600,30000,31500,33100,34800,36500,38300,40200,42300,44400,46600,48900,51300,56900], est:false },
+  15: { steps:[22800,24000,25200,26400,27800,29100,30600,32100,33700,35400,37200,39000,41000,43000,45200,47400,49800,52300,55200], est:false },
+  16: { steps:[21900,23000,24200,25400,26700,28000,29400,30900,32400,34000,35700,37500,39400,41300,43400,45600,47900,50200,52900], est:false },
+  17: { steps:[21400,22500,23600,24800,26100,27400,28700,30200,31700,33200,34900,36700,38500,40400,42400,44500,46800,49100,51900], est:false },
+  18: { steps:[21000,22100,23200,24400,25600,26900,28200,29600,31100,32600,34300,36000,37800,39600,41600,43700,45900,48200,50900], est:false },
+  19: { steps:[20500,21600,22700,23800,25000,26200,27500,28900,30300,31900,33400,35100,36900,38700,40600,42700,44800,47000,49600], est:false },
+  20: { steps:[20000,21000,22100,23200,24400,25600,26900,28200,29600,31100,32600,34300,36000,37800,39600,41600,43700,45900,48400], est:false }
+};
+
+/** পেনশন বৃদ্ধির সারণি — অনুচ্ছেদ ৮(১)(খ) */
+const PENSION_SLABS = [
+  { lo:0,     hi:10000,    rate:1.00, min:10000, max:18000 },
+  { lo:10001, hi:20000,    rate:0.75, min:18001, max:35000 },
+  { lo:20001, hi:30000,    rate:0.65, min:35001, max:49000 },
+  { lo:30001, hi:40000,    rate:0.60, min:49001, max:62000 },
+  { lo:40001, hi:Infinity, rate:0.55, min:62001, max:70200 }
+];
+
+/** বাড়ি ভাড়া ভাতার হার — অনুচ্ছেদ ১৫(৬), কার্যকর ১ জানুয়ারি ২০২৮ */
+const HOUSE_RENT = {
+  dhaka: { '1-4':0.40, '5-9':0.45, '10-15':0.50, '16-20':0.60 },
+  metro: { '1-4':0.30, '5-9':0.35, '10-15':0.40, '16-20':0.50 },
+  other: { '1-4':0.25, '5-9':0.30, '10-15':0.35, '16-20':0.45 }
+};
+
+/** ধাপভিত্তিক পরিশোধের সূচি */
+const ORDER_DATE = new Date(2026, 8, 17);          // ১৭ সেপ্টেম্বর ২০২৬
+const PHASES = [
+  { from:'১ জুলাই ২০২৬', to:'৩১ ডিসেম্বর ২০২৬', salary:{ hi:0.40, lo:0.50 }, pension:{ hi:0.40, lo:0.50 } },
+  { from:'১ জানুয়ারি ২০২৭', to:'৩০ জুন ২০২৭',  salary:{ hi:0.70, lo:0.75 }, pension:{ hi:0.70, lo:0.75 } },
+  { from:'১ জুলাই ২০২৭', to:'অবধি',            salary:{ hi:1.00, lo:1.00 }, pension:{ hi:1.00, lo:1.00 } }
+];
+
+/* ==================================================================
+   2.  HELPERS
+   ================================================================== */
+const BN_DIGITS = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+let useBanglaDigits = false;
+
+const $  = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+
+function fmt(n, dec=0){
+  if(n === null || n === undefined || n === '' || isNaN(n)) return '—';
+  let s = Number(n).toLocaleString('en-US',{minimumFractionDigits:dec, maximumFractionDigits:dec});
+  if(useBanglaDigits) s = s.replace(/\d/g, d => BN_DIGITS[+d]);
+  return s;
+}
+function bnNum(n){
+  return String(n).replace(/\d/g, d => BN_DIGITS[+d]);
+}
+function tk(n, dec=0){ return '৳ ' + fmt(n, dec); }
+
+/** সাধারণ সংখ্যা → ইনপুট পার্স */
+function parseNum(v){
+  if(v === '' || v === null || v === undefined) return NaN;
+  // বাংলা সংখ্যা → ইংরেজি
+  let s = String(v).replace(/[০-৯]/g, d => BN_DIGITS.indexOf(d));
+  s = s.replace(/[^0-9.\-]/g,'');
+  return s === '' ? NaN : Number(s);
+}
+
+/** স্কেল অ্যারে → টেক্সট (যেমন ২৫০০০-২৬৩০০-২৭৬০০) */
+function scaleText(arr){
+  if(!arr || !arr.length) return '—';
+  if(arr.length === 1) return fmt(arr[0]) + ' (নির্ধারিত)';
+  return arr.map(v => fmt(v)).join('-');
+}
+
+/* ==================================================================
+   3.  CORE: PAY FIXATION  (অনুচ্ছেদ ৪ ও ৫)
+   ================================================================== */
+/**
+ * @param {number} grade     ১–২০
+ * @param {number} oldBasic  ৩০ জুন ২০২৬-এর মূল বেতন
+ * @returns {object} বিস্তারিত হিসাব
+ */
+function fixPay(grade, oldBasic){
+  const g        = Number(grade);
+  const oldScale = SCALE_2015[g];
+  const newObj   = SCALE_2026[g];
+  const newScale = newObj.steps;
+
+  const oldStart = oldScale[0];
+  const newStart = newScale[0];
+
+  let fixed, method, diff = 0, target = 0;
+
+  if(oldBasic <= oldStart){
+    fixed  = newStart;
+    method = 'initial';
+  } else {
+    diff   = oldBasic - oldStart;
+    target = newStart + diff;
+    let idx = newScale.findIndex(v => v >= target);
+    if(idx === -1) idx = newScale.length - 1;
+    fixed  = newScale[idx];
+    method = 'difference';
+  }
+
+  // ১ জুলাই ২০২৬-এ ১টি বার্ষিক ইনক্রিমেন্ট (অনুচ্ছেদ ৯(২))
+  const idxFixed = newScale.indexOf(fixed);
+  const withInc  = (idxFixed > -1 && idxFixed < newScale.length - 1)
+                    ? newScale[idxFixed + 1] : fixed;
+
+  const increase   = fixed - oldBasic;
+  const pct        = oldBasic > 0 ? (increase / oldBasic) * 100 : 0;
+  const stepNo     = newScale.indexOf(fixed) + 1;
+  const isTop      = newScale.indexOf(fixed) === newScale.length - 1;
+
+  return {
+    grade:g, oldBasic, oldStart, newStart, diff, target,
+    fixed, withInc, method, increase, pct,
+    stepNo, totalSteps:newScale.length, isTop,
+    oldScale, newScale, est:newObj.est
+  };
+}
+
+/* ==================================================================
+   4.  CORE: PENSION  (অনুচ্ছেদ ৮)
+   ================================================================== */
+function newPension(oldPension){
+  const p = Number(oldPension);
+  const slab = PENSION_SLABS.find(s => p >= s.lo && p <= s.hi) || PENSION_SLABS[0];
+  const raw  = p * (1 + slab.rate);
+  const val  = Math.min(Math.max(raw, slab.min), slab.max);
+  return { value: Math.round(val), slab, raw: Math.round(raw) };
+}
+
+/* ==================================================================
+   5.  UI WIRING
+   ================================================================== */
+/* ---- digit toggle ---- */
+$('#digEn').addEventListener('click', () => { useBanglaDigits=false; $('#digEn').classList.add('on'); $('#digBn').classList.remove('on'); refreshAll(); });
+$('#digBn').addEventListener('click', () => { useBanglaDigits=true;  $('#digBn').classList.add('on'); $('#digEn').classList.remove('on'); refreshAll(); });
+function refreshAll(){
+  renderScaleTable();
+  if(!$('#fxOut').classList.contains('hidden')) $('#fxCalc').click();
+  if(!$('#incOut').classList.contains('hidden')) $('#incCalc').click();
+  if(!$('#penOut').classList.contains('hidden')) $('#penCalc').click();
+  if(!$('#alOut').classList.contains('hidden')) $('#alCalc').click();
+}
+
+/* ---- tabs ---- */
+$$('#tabbar .tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    $$('#tabbar .tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    $$('.panel').forEach(p => p.classList.remove('active'));
+    $('#panel-' + btn.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+/* ---- populate grade dropdowns ---- */
+function fillGrades(sel, def){
+  const frag = document.createDocumentFragment();
+  for(let g = 1; g <= 20; g++){
+    const o = document.createElement('option');
+    o.value = g;
+    const est = SCALE_2026[g].est ? ' ≈' : '';
+    o.textContent = 'গ্রেড ' + bnNum(g) + ' (' + bnNum(g) + 'তম)' + est;
+    frag.appendChild(o);
+  }
+  sel.appendChild(frag);
+  sel.value = def;
+}
+fillGrades($('#fxGrade'), 11);
+fillGrades($('#incGrade'), 11);
+fillGrades($('#alGrade'), 11);
+
+/* ==================================================================
+   6.  TAB 1 — FIXATION
+   ================================================================== */
+function gradeRangeClass(g){
+  g = Number(g);
+  if(g <= 4)  return '1-4';
+  if(g <= 9)  return '5-9';
+  if(g <= 15) return '10-15';
+  return '16-20';
+}
+
+$('#fxGrade').addEventListener('change', () => {
+  const g = Number($('#fxGrade').value);
+  const st = SCALE_2026[g];
+  $('#fxGradeHint').textContent =
+    '২০২৬ সালের প্রারম্ভিক ধাপ: ' + tk(st.steps[0]) +
+    '  ·  সর্বোচ্চ ধাপ: ' + tk(st.steps[st.steps.length-1]) +
+    (st.est ? '  ·  ⚠ এই গ্রেডের ধাপগুলো আনুমানিক' : '');
+  const oldS = SCALE_2015[g];
+  $('#fxBasicHint').textContent =
+    'বর্তমান স্কেলের প্রারম্ভিক ধাপ ' + tk(oldS[0]) + '। এর চেয়ে কম বা সমান দিলে নতুন স্কেলের প্রারম্ভিক ধাপ প্রযোজ্য হবে।';
+});
+
+$('#fxStatus').addEventListener('change', () => {
+  const v = $('#fxStatus').value;
+  const map = {
+    duty:'স্বাভাবিক নিয়মে বেতন নির্ধারণ হবে।',
+    leave:'ছুটিতে থাকলেও ১ জুলাই ২০২৬-এর ভিত্তিতে বেতন নির্ধারিত হবে; তবে ছুটিকালীন আর্থিক সুবিধা ছুটির সময় প্রাপ্য হবে না।',
+    prl:'অবসর-উত্তর ছুটিতে থাকলে শুধু পেনশন নির্ধারণের জন্য বেতন নির্ধারিত হবে; ছুটি শেষে নতুন হার প্রযোজ্য।',
+    suspend:'সাময়িক বরখাস্ত অবস্থায় পুনর্বহাল না হওয়া পর্যন্ত বেতন নির্ধারণ হবে না।'
+  };
+  $('#fxStatusHint').textContent = map[v];
+});
+$('#fxGrade').dispatchEvent(new Event('change'));
+$('#fxStatus').dispatchEvent(new Event('change'));
+
+$('#fxReset').addEventListener('click', () => {
+  $('#fxGrade').value = 11;
+  $('#fxBasic').value = '';
+  $('#fxStatus').value = 'duty';
+  $('#fxIncrement').checked = true;
+  $('#fxOut').classList.add('hidden');
+  $('#fxPlaceholder').classList.remove('hidden');
+  $('#fxErr').classList.remove('show');
+  $('#fxGrade').dispatchEvent(new Event('change'));
+  $('#fxStatus').dispatchEvent(new Event('change'));
+});
+
+$('#fxCalc').addEventListener('click', () => {
+  const g   = Number($('#fxGrade').value);
+  const raw = $('#fxBasic').value;
+  const basic = parseNum(raw);
+  const errEl = $('#fxErr');
+  const addInc = $('#fxIncrement').checked;
+
+  if(isNaN(basic) || basic <= 0){
+    errEl.textContent = 'সঠিক মূল বেতন লিখুন (শূন্যের বেশি)।';
+    errEl.classList.add('show');
+    return;
+  }
+  const oldScale = SCALE_2015[g];
+  if(basic > oldScale[oldScale.length-1] * 1.5){
+    errEl.textContent = 'সতর্কতা: গ্রেড ' + bnNum(g) + '-এর সর্বোচ্চ ধাপ ' + tk(oldScale[oldScale.length-1]) + ' থেকে অনেক বেশি।';
+    errEl.classList.add('show');
+  } else {
+    errEl.classList.remove('show');
+  }
+
+  const r = fixPay(g, basic);
+  renderFixation(r, addInc);
+});
+
+function renderFixation(r, addInc){
+  const effective = addInc ? r.withInc : r.fixed;
+  const totalIncrease = effective - r.oldBasic;
+  const totalPct = r.oldBasic > 0 ? (totalIncrease / r.oldBasic) * 100 : 0;
+
+  /* ---- ধাপভিত্তিক পরিশোধ ---- */
+  const isHiGrade = r.grade <= 9;                        // ৯ম গ্রেড ও তদূর্ধ্ব
+  const salaryDiff = r.fixed - r.oldBasic;
+
+  const phaseRows = PHASES.map(ph => {
+    const rate = isHiGrade ? ph.salary.hi : ph.salary.lo;
+    const payable = r.oldBasic + salaryDiff * rate;
+    return { ...ph, rate, payable };
+  });
+
+  /* ---- বকেয়া: ১ জুলাই ২০২৬ → ১৭ সেপ্টেম্বর ২০২৬ ---- */
+  const days = 79; // ১ জুলাই – ১৭ সেপ্টেম্বর ২০২৬
+  const phase1 = phaseRows[0];
+  const monthlyArrear = Math.max(0, phase1.payable - r.oldBasic);
+  const totalArrear = monthlyArrear * (days / 30);
+
+  const estBadge = r.est
+    ? '<span class="pill warn">≈ আনুমানিক গ্রেড</span> '
+    : '<span class="pill ok">✔ যাচাইকৃত</span> ';
+
+  let stepsHtml = '';
+
+  if(r.method === 'initial'){
+    stepsHtml = `
+      <div class="step">
+        <div class="t">ধাপ ১ — অনুচ্ছেদ ৫(ক)</div>
+        <div class="d">কর্মচারী বর্তমান স্কেলের <b>প্রারম্ভিক ধাপে</b> (<code>${fmt(r.oldStart)}</code>) আছেন। তাই ২০২৬ স্কেলের অনুরূপ গ্রেডের প্রারম্ভিক ধাপই প্রযোজ্য হবে।</div>
+      </div>
+      <div class="step">
+        <div class="t">ধাপ ২ — ফলাফল</div>
+        <div class="d">নতুন মূল বেতন = <code>${fmt(r.newStart)}</code></div>
+      </div>`;
+  } else {
+    stepsHtml = `
+      <div class="step">
+        <div class="t">ধাপ ১ — পার্থক্য নির্ণয় [অনুচ্ছেদ ৫(খ)]</div>
+        <div class="d">বর্তমান মূল বেতন − বর্তমান স্কেলের প্রারম্ভিক ধাপ<br>
+          <code>${fmt(r.oldBasic)} − ${fmt(r.oldStart)} = ${fmt(r.diff)}</code></div>
+      </div>
+      <div class="step">
+        <div class="t">ধাপ ২ — প্রাপ্ত পার্থক্য যোগ</div>
+        <div class="d">নতুন স্কেলের প্রারম্ভিক ধাপ + পার্থক্য<br>
+          <code>${fmt(r.newStart)} + ${fmt(r.diff)} = ${fmt(r.target)}</code></div>
+      </div>
+      <div class="step">
+        <div class="t">ধাপ ৩ — নিকটতম ধাপ নির্বাচন</div>
+        <div class="d">${fmt(r.target)} যদি কোনো ধাপের সমান হয় → সেই ধাপ; না হলে <b>পরবর্তী উচ্চতর ধাপ</b>।<br>
+          নির্বাচিত ধাপ: <code>${fmt(r.fixed)}</code> (${bnNum(r.stepNo)} নম্বর ধাপ, মোট ${bnNum(r.totalSteps)} ধাপ)</div>
+      </div>`;
+  }
+
+  if(addInc){
+    stepsHtml += `
+      <div class="step">
+        <div class="t">ধাপ ৪ — ১ জুলাই ২০২৬-এ ১টি ইনক্রিমেন্ট [অনুচ্ছেদ ৯(২)]</div>
+        <div class="d">
+          ${r.isTop
+            ? 'এই কর্মচারী ইতিমধ্যে স্কেলের সর্বোচ্চ ধাপে আছেন — ইনক্রিমেন্ট প্রযোজ্য নয়।'
+            : `নির্ধারিত বেতন <code>${fmt(r.fixed)}</code> + ১টি ইনক্রিমেন্ট = <code>${fmt(r.withInc)}</code>`}
+        </div>
+      </div>`;
+  }
+
+  const html = `
+    <div class="big-result">
+      <div class="k">১ জুলাই ২০২৬ তারিখে কার্যকর মূল বেতন ${addInc ? '(১টি ইনক্রিমেন্টসহ)' : ''}</div>
+      <div class="v"><small>৳</small>${fmt(effective)}</div>
+      <div class="br-split">
+        <div>
+          <div class="k">বৃদ্ধির পরিমাণ</div>
+          <div class="n">${totalIncrease >= 0 ? '+' : ''}${fmt(totalIncrease)}</div>
+        </div>
+        <div>
+          <div class="k">বৃদ্ধির হার</div>
+          <div class="n">${fmt(totalPct, 1)}%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card tight" style="margin-top:16px">
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px">
+        ${estBadge}
+        <span class="pill info">গ্রেড ${bnNum(r.grade)}</span>
+        <span class="pill info">${r.stepNo <= r.totalSteps ? bnNum(r.stepNo) + ' নম্বর ধাপ' : '—'}</span>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat">
+          <div class="k">৩০ জুন ২০২৬-এর মূল বেতন</div>
+          <div class="v">${tk(r.oldBasic)}</div>
+        </div>
+        <div class="stat green">
+          <div class="k">নির্ধারিত নতুন মূল বেতন</div>
+          <div class="v">${tk(r.fixed)}</div>
+        </div>
+        <div class="stat">
+          <div class="k">নতুন স্কেলের প্রারম্ভিক ধাপ</div>
+          <div class="v">${tk(r.newStart)}</div>
+        </div>
+        <div class="stat">
+          <div class="k">নতুন স্কেলের সর্বোচ্চ ধাপ</div>
+          <div class="v">${tk(r.newScale[r.newScale.length-1])}</div>
+        </div>
+      </div>
+
+      <div class="subhead">হিসাবের ধাপসমূহ</div>
+      <div class="steps">${stepsHtml}</div>
+    </div>
+
+    <div class="card tight" style="margin-top:16px">
+      <div class="card-head">
+        <div class="bar amber"></div>
+        <div>
+          <h2>ধাপভিত্তিক পরিশোধের সূচি</h2>
+          <p>অনুচ্ছেদ ১(৩) — বেতনবৃদ্ধি ধাপে ধাপে প্রদান</p>
+        </div>
+      </div>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>সময়কাল</th>
+              <th class="n">বৃদ্ধির হার</th>
+              <th class="n">মাসিক প্রাপ্য</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${phaseRows.map(ph => `
+              <tr>
+                <td><b>${ph.from}</b> — ${ph.to}</td>
+                <td class="n">${fmt(ph.rate*100)}%${isHiGrade ? ' <span style="font-size:11px;color:#5b6f68">(৯ম ও তদূর্ধ্ব)</span>' : ' <span style="font-size:11px;color:#5b6f68">(১০ম–২০তম)</span>'}</td>
+                <td class="n"><b>${tk(ph.payable)}</b></td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="notice ok" style="margin-top:14px">
+        <span class="ic">📌</span>
+        <div>
+          বেতনবৃদ্ধির মোট অঙ্ক = নতুন বেতন − পুরাতন বেতন = <b>${tk(salaryDiff)}</b>।
+          এর উপর নির্দিষ্ট হারে শতাংশ যোগ করে ৩০ জুন ২০২৬-এর বেতনের সাথে যোগ করা হয়েছে।
+          ১ জুলাই ২০২৭ থেকে ১০০% (ইনক্রিমেন্টসহ) প্রদান করা হবে।
+        </div>
+      </div>
+    </div>
+
+    <div class="card tight" style="margin-top:16px">
+      <div class="card-head">
+        <div class="bar"></div>
+        <div>
+          <h2>বকেয়া হিসাব</h2>
+          <p>অনুচ্ছেদ ১(৩)(ঘ) — ১ জুলাই ২০২৬ থেকে আদেশ জারির তারিখ (১৭ সেপ্টেম্বর ২০২৬) পর্যন্ত</p>
+        </div>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><div class="k">সময়কাল</div><div class="v" style="font-size:16px">১ জুলাই – ১৭ সেপ্টেম্বর ২০২৬</div></div>
+        <div class="stat"><div class="k">মাসিক বকেয়া</div><div class="v">${tk(monthlyArrear)}</div></div>
+        <div class="stat amber"><div class="k">মোট আনুমানিক বকেয়া (${bnNum(days)} দিন)</div><div class="v">${tk(totalArrear)}</div></div>
+      </div>
+      <div class="notice info" style="margin-top:14px">
+        <span class="ic">ℹ️</span>
+        <div>প্রথম ধাপে (১ জুলাই – ৩১ ডিসেম্বর ২০২৬) বৃদ্ধির হার হিসেবে ৪০%/৫০% ধরা হয়েছে; গেজেটের OCR-এ এই অংশটি সামান্য অস্পষ্ট ছিল। প্রকৃত হার নিশ্চিত করতে অফিসিয়াল গেজেট দেখুন।</div>
+      </div>
+    </div>`;
+
+  const out = $('#fxOut');
+  out.innerHTML = html;
+  out.classList.remove('hidden');
+  $('#fxPlaceholder').classList.add('hidden');
+}
+
+/* ==================================================================
+   7.  TAB 2 — SCALE TABLE
+   ================================================================== */
+function renderScaleTable(){
+  const q = ($('#scaleSearch').value || '').replace(/[০-৯]/g, d => BN_DIGITS.indexOf(d)).trim();
+  const body = $('#scaleBody');
+  let rows = '';
+
+  for(let g = 1; g <= 20; g++){
+    if(q && String(g) !== q && bnNum(g) !== q) continue;
+    const oldArr = SCALE_2015[g];
+    const newObj = SCALE_2026[g];
+    const newArr = newObj.steps;
+    const badgeCls = g <= 4 ? 'grade-badge hi' : (g >= 16 ? 'grade-badge lo' : 'grade-badge');
+    rows += `
+      <tr>
+        <td><span class="${badgeCls}">${bnNum(g)}</span></td>
+        <td><span class="scale-text old">${oldArr.map(v=>fmt(v)).join('-')}</span></td>
+        <td>
+          <span class="scale-text new">${newArr.map(v=>fmt(v)).join('-')}</span>
+          ${newObj.est ? ' <span class="pill warn">≈ আনুমানিক</span>' : ' <span class="pill ok">✔</span>'}
+        </td>
+      </tr>`;
+  }
+  body.innerHTML = rows || `<tr><td colspan="3" style="text-align:center;padding:24px;color:#5b6f68">কোনো গ্রেড পাওয়া যায়নি।</td></tr>`;
+}
+$('#scaleSearch').addEventListener('input', renderScaleTable);
+
+/* ==================================================================
+   8.  TAB 3 — INCREMENT
+   ================================================================== */
+$('#incGrade').addEventListener('change', () => {
+  const g = Number($('#incGrade').value);
+  const s = SCALE_2026[g].steps;
+  $('#incHint').textContent =
+    'গ্রেড ' + bnNum(g) + ' স্কেল: ' + tk(s[0]) + ' – ' + tk(s[s.length-1]) +
+    '  ·  ধাপ সংখ্যা: ' + bnNum(s.length) +
+    (SCALE_2026[g].est ? '  ·  ⚠ আনুমানিক' : '');
+});
+$('#incGrade').dispatchEvent(new Event('change'));
+
+$('#incCalc').addEventListener('click', () => {
+  const g = Number($('#incGrade').value);
+  const basic = parseNum($('#incBasic').value);
+  if(isNaN(basic) || basic <= 0){
+    alert('সঠিক মূল বেতন লিখুন।');
+    return;
+  }
+  const scale = SCALE_2026[g].steps;
+  let idx = scale.indexOf(basic);
+  if(idx === -1){
+    // নিকটতম উচ্চতর ধাপ
+    idx = scale.findIndex(v => v >= basic);
+    if(idx === -1) idx = scale.length - 1;
+  }
+
+  const years = Number($('#incYears').value);
+  const today = new Date(2026, 6, 1);   // ১ জুলাই ২০২৬
+
+  let rows = '';
+  let prev = basic;
+  let curIdx = idx;
+  let totalGain = 0;
+
+  for(let y = 0; y < years; y++){
+    const dt = new Date(2026 + y, 6, 1);
+    const cur = scale[Math.min(curIdx, scale.length - 1)];
+    const next = scale[Math.min(curIdx + 1, scale.length - 1)];
+    const inc = (curIdx < scale.length - 1) ? (next - cur) : 0;
+    const atTop = curIdx >= scale.length - 1;
+
+    if(y > 0) totalGain += inc;
+
+    const label = y === 0
+      ? '১ জুলাই ২০২৬ (নির্ধারিত)'
+      : '১ জুলাই ' + bnNum(2026 + y);
+
+    rows += `
+      <tr>
+        <td><b>${label}</b></td>
+        <td class="n">${tk(cur)}</td>
+        <td class="n">${atTop ? '— (সর্বোচ্চ ধাপ)' : '+' + fmt(inc)}</td>
+        <td class="n">${atTop ? tk(cur) : tk(next)}</td>
+      </tr>`;
+
+    if(!atTop) curIdx++;
+  }
+
+  const finalBasic = scale[Math.min(idx + years - 1, scale.length - 1)];
+
+  const html = `
+    <div class="big-result">
+      <div class="k">${bnNum(years)} বছর পর সম্ভাব্য মূল বেতন</div>
+      <div class="v"><small>৳</small>${fmt(finalBasic)}</div>
+      <div class="br-split">
+        <div><div class="k">শুরুর মূল বেতন</div><div class="n">${fmt(basic)}</div></div>
+        <div><div class="k">মোট ইনক্রিমেন্ট যোগ</div><div class="n">+${fmt(finalBasic - basic)}</div></div>
+      </div>
+    </div>
+
+    <div class="card tight" style="margin-top:16px">
+      <div class="card-head">
+        <div class="bar"></div>
+        <div>
+          <h2>বছরভিত্তিক ইনক্রিমেন্ট প্রক্ষেপণ</h2>
+          <p>অনুচ্ছেদ ৯ — প্রতি ১ জুলাই তারিখে বার্ষিক বেতনবৃদ্ধি</p>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>তারিখ</th>
+              <th class="n">মূল বেতন</th>
+              <th class="n">ইনক্রিমেন্ট</th>
+              <th class="n">পরবর্তী বেতন</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+      <div class="notice info" style="margin-top:14px">
+        <span class="ic">ℹ️</span>
+        <div>নতুন নিয়োগকৃত কর্মচারীর ক্ষেত্রে ন্যূনতম ৬ মাস যোগ্যতাসম্পন্ন চাকরির মেয়াদ থাকলে ইনক্রিমেন্ট প্রাপ্য (অনুচ্ছেদ ৯(২) এর শর্ত)। ইনক্রিমেন্ট স্কেলের পরবর্তী ধাপের সমান।</div>
+      </div>
+    </div>`;
+
+  const out = $('#incOut');
+  out.innerHTML = html;
+  out.classList.remove('hidden');
+  $('#incPlaceholder').classList.add('hidden');
+});
+
+/* ==================================================================
+   9.  TAB 4 — PENSION
+   ================================================================== */
+$('#penCalc').addEventListener('click', () => {
+  const old = parseNum($('#penBasic').value);
+  if(isNaN(old) || old <= 0){
+    alert('সঠিক নিট পেনশনের পরিমাণ লিখুন।');
+    return;
+  }
+
+  const np = newPension(old);
+  const diff = np.value - old;
+  const capped = np.raw !== np.value;
+  const overMax = old > 70200;
+
+  const isHi = old >= 20001;   // ২০,০০১ টাকা ও তদূর্ধ্ব
+  const phaseRows = PHASES.map(ph => {
+    const rate = isHi ? ph.pension.hi : ph.pension.lo;
+    const payable = overMax ? old : (old + diff * rate);
+    return { ...ph, rate, payable };
+  });
+
+  const days = 79;
+  const monthlyArrear = Math.max(0, phaseRows[0].payable - old);
+  const totalArrear = monthlyArrear * (days / 30);
+
+  const html = `
+    <div class="big-result">
+      <div class="k">১ জুলাই ২০২৭ থেকে পূর্ণ নিট পেনশন</div>
+      <div class="v"><small>৳</small>${fmt(np.value)}</div>
+      <div class="br-split">
+        <div><div class="k">বৃদ্ধির পরিমাণ</div><div class="n">+${fmt(diff)}</div></div>
+        <div><div class="k">বৃদ্ধির হার</div><div class="n">${fmt(old>0 ? diff/old*100 : 0, 1)}%</div></div>
+      </div>
+    </div>
+
+    <div class="card tight" style="margin-top:16px">
+      <div class="stat-row">
+        <div class="stat"><div class="k">৩০ জুন ২০২৬-এর নিট পেনশন</div><div class="v">${tk(old)}</div></div>
+        <div class="stat green"><div class="k">নতুন নির্ধারিত নিট পেনশন</div><div class="v">${tk(np.value)}</div></div>
+        <div class="stat"><div class="k">প্রযোজ্য বৃদ্ধির হার</div><div class="v">${fmt(np.slab.rate*100)}%</div></div>
+        <div class="stat amber"><div class="k">উভয় সীমা</div><div class="v" style="font-size:15px">${tk(np.slab.min)} – ${tk(np.slab.max)}</div></div>
+      </div>
+
+      ${capped ? `<div class="notice warn" style="margin-top:14px"><span class="ic">⚠️</span><div>নির্ধারিত পেনশন সারণির সীমার কারণে হিসাবকৃত মান (${tk(np.raw)}) ${np.raw > np.value ? 'সর্বোচ্চ' : 'ন্যূনতম'} সীমায় সমন্বয় করা হয়েছে।</div></div>` : ''}
+
+      ${overMax ? `<div class="notice warn" style="margin-top:14px"><span class="ic">⚠️</span><div>বিদ্যমান নিট পেনশন ৭০,২০০ টাকার বেশি — অনুচ্ছেদ ৮(১)(খ) এর শর্ত অনুযায়ী ১ জুলাই ২০২৭ এর পূর্ব পর্যন্ত বিদ্যমান নিট পেনশনই প্রাপ্য হবে।</div></div>` : ''}
+
+      <div class="subhead">ধাপভিত্তিক পরিশোধ</div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>সময়কাল</th>
+              <th class="n">বৃদ্ধির হার</th>
+              <th class="n">মাসিক প্রাপ্য</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${phaseRows.map(ph => `
+              <tr>
+                <td><b>${ph.from}</b> — ${ph.to}</td>
+                <td class="n">${fmt(ph.rate*100)}%${isHi ? ' <span style="font-size:11px;color:#5b6f68">(২০,০০১+)</span>' : ' <span style="font-size:11px;color:#5b6f68">(১–২০,০০০)</span>'}</td>
+                <td class="n"><b>${tk(ph.payable)}</b></td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="notice ok" style="margin-top:14px">
+        <span class="ic">📌</span>
+        <div>
+          নিট পেনশনবৃদ্ধির মোট অঙ্ক = <b>${tk(diff)}</b> (নতুন পেনশন − পুরাতন পেনশন)।
+          ১ জুলাই ২০২৬ – ৩১ ডিসেম্বর ২০২৬: ${fmt(PHASES[0].pension.lo)}%${isHi?'/'+fmt(PHASES[0].pension.hi)+'%':''} ·
+          ১ জানুয়ারি ২০২৭ – ৩০ জুন ২০২৭: ${fmt(PHASES[1].pension.lo)}%${isHi?'/'+fmt(PHASES[1].pension.hi)+'%':''} ·
+          ১ জুলাই ২০২৭ থেকে ১০০%।
+        </div>
+      </div>
+    </div>
+
+    <div class="card tight" style="margin-top:16px">
+      <div class="card-head">
+        <div class="bar red"></div>
+        <div>
+          <h2>বকেয়া হিসাব</h2>
+          <p>অনুচ্ছেদ ৮ ও ১(৩)(জ) — ১ জুলাই ২০২৬ থেকে আদেশ জারির তারিখ পর্যন্ত</p>
+        </div>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><div class="k">সময়কাল</div><div class="v" style="font-size:16px">১ জুলাই – ১৭ সেপ্টেম্বর ২০২৬</div></div>
+        <div class="stat"><div class="k">মাসিক বকেয়া</div><div class="v">${tk(monthlyArrear)}</div></div>
+        <div class="stat amber"><div class="k">মোট আনুমানিক বকেয়া</div><div class="v">${tk(totalArrear)}</div></div>
+      </div>
+    </div>`;
+
+  const out = $('#penOut');
+  out.innerHTML = html;
+  out.classList.remove('hidden');
+  $('#penPlaceholder').classList.add('hidden');
+});
+
+/* ==================================================================
+   10. TAB 5 — ALLOWANCES
+   ================================================================== */
+function houseRentRate(grade, area){
+  const cls = gradeRangeClass(grade);
+  return HOUSE_RENT[area][cls];
+}
+
+$('#alCalc').addEventListener('click', () => {
+  const g     = Number($('#alGrade').value);
+  const basic = parseNum($('#alBasic').value);
+  if(isNaN(basic) || basic <= 0){
+    alert('সঠিক মূল বেতন লিখুন।');
+    return;
+  }
+  const area    = $('#alArea').value;
+  const age     = parseNum($('#alAge').value) || 0;
+  const kids    = parseNum($('#alChildren').value) || 0;
+  const special = parseNum($('#alSpecial').value) || 0;
+  const housing = $('#alHousing').value;
+
+  const rows = [];
+  let total = 0;
+
+  function add(name, amount, note){
+    if(amount > 0){
+      rows.push({ name, amount, note: note || '' });
+      total += amount;
+    }
+  }
+
+  /* --- বাড়ি ভাড়া (কার্যকর ১ জানুয়ারি ২০২৮) --- */
+  if(housing === 'no'){
+    const r = houseRentRate(g, area);
+    add('বাড়ি ভাড়া ভাতা', Math.round(basic * r),
+        fmt(r*100) + '% — ১ জানুয়ারি ২০২৮ হতে কার্যকর');
+  }
+
+  /* --- চিকিৎসা ভাতা --- */
+  const med = age < 50 ? 3000 : 4000;
+  add('চিকিৎসা ভাতা', med, age < 50 ? '৫০ বছর পর্যন্ত' : '৫০ বছর ১ দিন থেকে PRL পর্যন্ত');
+
+  /* --- বাংলা নববর্ষ ভাতা --- */
+  add('বাংলা নববর্ষ ভাতা', Math.round(basic * 0.15), 'মূল বেতনের ১৫%');
+
+  /* --- যাতায়াত ভাতা (গ্রেড ১১–২০) --- */
+  if(g >= 11 && g <= 20){
+    add('যাতায়াত ভাতা', 600, '১১তম–২০তম গ্রেড');
+  }
+
+  /* --- টিফিন ভাতা (গ্রেড ১১–২০) --- */
+  if(g >= 11 && g <= 20){
+    add('টিফিন ভাতা', 500, '১১তম–২০তম গ্রেড');
+  }
+
+  /* --- মোবাইল ভাতা --- */
+  if(g <= 5){
+    add('মোবাইল ভাতা', 500, '৫ম গ্রেড ও তদূর্ধ্ব');
+  } else {
+    add('মোবাইল ভাতা', 150, '৬ষ্ঠ–২০তম গ্রেড');
+  }
+
+  /* --- ধোলাই ভাতা --- */
+  add('ধোলাই ভাতা', 300, '');
+
+  /* --- শিক্ষা সহায়ক ভাতা --- */
+  if(kids > 0){
+    const n = Math.min(kids, 2);
+    add('শিক্ষা সহায়ক ভাতা', Math.min(n * 500, 1000), bnNum(n) + ' সন্তান × ৫০০ (সর্বোচ্চ ১,০০০)');
+  }
+
+  /* --- বিশেষ চাহিদাসম্পন্ন সন্তান ভাতা --- */
+  if(special > 0){
+    const n = Math.min(special, 2);
+    add('বিশেষ চাহিদাসম্পন্ন সন্তান ভাতা', n * 3000, bnNum(n) + ' সন্তান × ৩,০০০');
+  }
+
+  /* --- কার্যভার ভাতা --- */
+  add('কার্যভার ভাতা', 1500, 'চলিত/অতিরিক্ত দায়িত্ব পালনে');
+
+  /* --- পাহাড়ি / হাওড়-দ্বীপ-চর (প্রযোজ্য হলে) --- */
+  // শুধু তথ্যের জন্য, ব্যবহারকারী চাইলে ম্যানুয়ালি যোগ করবেন
+
+  const rowsHtml = rows.map(r => `
+    <tr>
+      <td><b>${r.name}</b>${r.note ? `<div style="font-size:11.5px;color:#5b6f68;line-height:1.5">${r.note}</div>` : ''}</td>
+      <td class="n"><b>${tk(r.amount)}</b></td>
+    </tr>`).join('');
+
+  const grossMonthly = basic + total;
+
+  const html = `
+    <div class="big-result">
+      <div class="k">মোট মাসিক ভাতাদি</div>
+      <div class="v"><small>৳</small>${fmt(total)}</div>
+      <div class="br-split">
+        <div><div class="k">মূল বেতন</div><div class="n">${fmt(basic)}</div></div>
+        <div><div class="k">মাসিক সর্বমোট (বেতন + ভাতাদি)</div><div class="n">${fmt(grossMonthly)}</div></div>
+      </div>
+    </div>
+
+    <div class="card tight" style="margin-top:16px">
+      <div class="card-head">
+        <div class="bar amber"></div>
+        <div>
+          <h2>ভাতাদির বিস্তারিত</h2>
+          <p>গ্রেড ${bnNum(g)} · বয়স ${bnNum(age)} বছর · ${housing === 'no' ? 'বাড়ি ভাড়া প্রাপ্য' : 'সরকারি আবাসন সুবিধাভোগী'}</p>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>ভাতার নাম</th><th class="n">মাসিক পরিমাণ</th></tr>
+          </thead>
+          <tbody>
+            <tr style="background:#f6faf9"><td><b>মূল বেতন</b></td><td class="n"><b>${tk(basic)}</b></td></tr>
+            ${rowsHtml}
+            <tr style="background:var(--green-soft)">
+              <td><b>সর্বমোট</b></td>
+              <td class="n"><b style="color:#006a4e;font-size:16px">${tk(grossMonthly)}</b></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="notice info" style="margin-top:14px">
+        <span class="ic">ℹ️</span>
+        <div>
+          <b>দ্রষ্টব্য:</b> বাড়ি ভাড়া ভাতা ১ জানুয়ারি ২০২৮ থেকে এই আদেশের হারে প্রযোজ্য; ৩১ ডিসেম্বর ২০২৭ পর্যন্ত ৩০ জুন ২০২৬-এর হারে প্রদান হবে।
+          উৎসব ভাতা, প্রাণ ও বিনোদন ভাতা, পাহাড়ি ভাতা, হাওড়/দ্বীপ/চর ভাতা, প্রশিক্ষণ প্রেষণ ভাতা ইত্যাদি এখানে অন্তর্ভুক্ত নয় — প্রয়োজনে হিসাব শাখার সাথে যাচাই করুন।
+        </div>
+      </div>
+    </div>`;
+
+  const out = $('#alOut');
+  out.innerHTML = html;
+  out.classList.remove('hidden');
+  $('#alPlaceholder').classList.add('hidden');
+});
+
+/* ==================================================================
+   11. INIT
+   ================================================================== */
+renderScaleTable();
+</script>
+</body>
+</html>
